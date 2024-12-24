@@ -8,18 +8,18 @@ import java.net.InetSocketAddress;
 
 public class WebFramework {
 
+    private final int port;
     private Router router;
 
-    public WebFramework() {
-        router = new Router(this);
+    public WebFramework(int port) {
+        this.port = port;
+        router = new Router();
     }
 
     public void start() {
         try {
-            // 創建 HttpServer，監聽端口 8080
-            HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
+            HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
 
-            // 設定處理器，處理 "/" 路徑的請求
             router.settingRoute(server);
 
             // 啟動伺服器
@@ -31,6 +31,12 @@ public class WebFramework {
     }
 
     public void addRoute(String path, HttpHandler handler) {
+//        if (!path.startsWith("/")) {
+//            path = "/" + path;
+//        }
+//        if (!path.endsWith("/")) {
+//            path = path + "/";
+//        }
         router.route(path, handler);
     }
 

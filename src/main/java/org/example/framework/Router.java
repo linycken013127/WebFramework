@@ -7,11 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Router {
-    private WebFramework webFramework;
     private List<Route> routers = new ArrayList<>();
 
-    public Router(WebFramework webFramework) {
-        this.webFramework = webFramework;
+    public Router() {
     }
 
     public void route(String path, HttpHandler handler) {
