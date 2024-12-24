@@ -2,12 +2,12 @@ package org.example.framework;
 
 public class RequestLine {
     private String method;
-    private String uri;
+    private HttpUrl url;
     private String httpVersion;
 
-    public RequestLine(String method, String uri, String httpVersion) {
+    public RequestLine(String method, HttpUrl url, String httpVersion) {
         this.method = method;
-        this.uri = uri;
+        this.url = url;
         this.httpVersion = httpVersion;
     }
 
@@ -15,9 +15,7 @@ public class RequestLine {
         return method;
     }
 
-    public String getUri() {
-        return uri;
-    }
+
 
     public String getHttpVersion() {
         return httpVersion;
