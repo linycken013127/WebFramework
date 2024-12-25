@@ -8,15 +8,19 @@ import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 public class WebFramework {
 
     private final int port;
     private Router router;
+    private BaseController controller;
 
     public WebFramework(int port) {
+        BaseController handler = new BaseController();
+        handler.setFramework(this);
         this.port = port;
-        router = new Router();
+        router = new Router(handler);
     }
 
     public void start() {
@@ -33,7 +37,7 @@ public class WebFramework {
         }
     }
 
-    public void addRoute(String path, BaseController controller) {
+    public void addRoute(String path, Function<Object, Object> controller) {
 //        if (!path.startsWith("/")) {
 //            path = "/" + path;
 //        }
@@ -41,7 +45,8 @@ public class WebFramework {
 //            path = path + "/";
 //        }
 
-        router.route(path, controller);
+        // todo : method
+        router.route(path, "GET", controller);
     }
 
     public Router getRouter() {
@@ -56,6 +61,21 @@ public class WebFramework {
         // 將 exchange 轉 http Request object
         // content type
         // force ocp
+        HttpRequest request = exchangeToRequest(exchange);
+
+        Route route = router.findRoute(request);
+        route.getHandler().apply(request);
+
+        // todo
+        if ("GET".equals(exchange.getRequestMethod())) {
+            String response = "Hello World!";
+            exchange.sendResponseHeaders(200, response.getBytes().length);
+            exchange.getResponseBody().write(response.getBytes());
+            exchange.getResponseBody().close();
+        }
+    }
+
+    private HttpRequest exchangeToRequest(HttpExchange exchange) {
         String httpVersion = exchange.getProtocol();
         HttpUrl url = new HttpUrl(
                 exchange.getRequestURI().getScheme(),
@@ -71,14 +91,6 @@ public class WebFramework {
             headers.add(header);
         }
         RequestBody requestBody = new RequestBody();
-        HttpRequest request = new HttpRequest(requestLine, url, headers, requestBody);
-
-        // todo
-        if ("GET".equals(exchange.getRequestMethod())) {
-            String response = "Hello World!";
-            exchange.sendResponseHeaders(200, response.getBytes().length);
-            exchange.getResponseBody().write(response.getBytes());
-            exchange.getResponseBody().close();
-        }
+        return new HttpRequest(requestLine, url, headers, requestBody);
     }
 }

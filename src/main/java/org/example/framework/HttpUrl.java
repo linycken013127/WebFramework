@@ -15,4 +15,24 @@ public class HttpUrl {
         this.path = path;
         this.query = query;
     }
+
+    public String getScheme() {
+        return scheme;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public String getQuery() {
+        return query;
+    }
 }

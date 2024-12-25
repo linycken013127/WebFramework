@@ -15,4 +15,8 @@ public class HttpRequest {
         this.headers = headers;
         this.requestBody = requestBody;
     }
+
+    public String getPath() {
+        return url.getPath();
+    }
 }
