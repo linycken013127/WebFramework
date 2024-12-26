@@ -37,18 +37,6 @@ public class WebFramework {
         }
     }
 
-    public void addRoute(String path, Function<Object, Object> controller) {
-//        if (!path.startsWith("/")) {
-//            path = "/" + path;
-//        }
-//        if (!path.endsWith("/")) {
-//            path = path + "/";
-//        }
-
-        // todo : method
-        router.route(path, "GET", controller);
-    }
-
     public Router getRouter() {
         return router;
     }
@@ -64,11 +52,14 @@ public class WebFramework {
         HttpRequest request = exchangeToRequest(exchange);
 
         Route route = router.findRoute(request);
-        route.getHandler().apply(request);
+
+        if (request.getMethod().equals(route.getMethod())) {
+            route.getHandler().apply(request);
+        }
 
         // todo
         if ("GET".equals(exchange.getRequestMethod())) {
-            String response = "Hello World!";
+            String response = "Test Hello World!";
             exchange.sendResponseHeaders(200, response.getBytes().length);
             exchange.getResponseBody().write(response.getBytes());
             exchange.getResponseBody().close();
@@ -92,5 +83,33 @@ public class WebFramework {
         }
         RequestBody requestBody = new RequestBody();
         return new HttpRequest(requestLine, url, headers, requestBody);
+    }
+
+    public void addRoute(String path, String method, Function<Object, Object> controller) {
+//        if (!path.startsWith("/")) {
+//            path = "/" + path;
+//        }
+//        if (!path.endsWith("/")) {
+//            path = path + "/";
+//        }
+
+        router.route(path, method, controller);
+    }
+
+    // Force OCP
+    public void get(String path, Function<Object, Object> controller) {
+        addRoute(path, "GET", controller);
+    }
+
+    public void post(String path, Function<Object, Object> controller) {
+        addRoute(path, "POST", controller);
+    }
+
+    public void put(String path, Function<Object, Object> controller) {
+        addRoute(path, "PUT", controller);
+    }
+
+    public void delete(String path, Function<Object, Object> controller) {
+        addRoute(path, "DELETE", controller);
     }
 }

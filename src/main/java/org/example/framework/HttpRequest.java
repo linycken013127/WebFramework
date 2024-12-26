@@ -19,4 +19,8 @@ public class HttpRequest {
     public String getPath() {
         return url.getPath();
     }
+
+    public String getMethod() {
+        return requestLine.getMethod();
+    }
 }
