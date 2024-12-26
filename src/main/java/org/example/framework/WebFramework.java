@@ -53,17 +53,20 @@ public class WebFramework {
 
         Route route = router.findRoute(request);
 
+        List<Header> headers = new ArrayList<>();
+        HttpResponse httpResponse = new HttpResponse(
+                new StatusLine(exchange.getProtocol(), 500),
+                headers
+        );
+
         if (request.getMethod().equals(route.getMethod())) {
-            route.getHandler().apply(request);
+            Object response = route.getHandler().apply(request);
+
+            httpResponse.setCode(200);
+            httpResponse.setBody(response);
         }
 
-        // todo
-        if ("GET".equals(exchange.getRequestMethod())) {
-            String response = "Test Hello World!";
-            exchange.sendResponseHeaders(200, response.getBytes().length);
-            exchange.getResponseBody().write(response.getBytes());
-            exchange.getResponseBody().close();
-        }
+        httpResponse.send(exchange);
     }
 
     private HttpRequest exchangeToRequest(HttpExchange exchange) {

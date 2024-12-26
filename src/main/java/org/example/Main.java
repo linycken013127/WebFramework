@@ -16,7 +16,8 @@ public class Main {
         // force OCP
         AppController appController = new AppController();
 
-        web.post("/test", appController::test);
+        web.get("/test", appController::test);
+        web.post("/test", appController::create);
         web.start();
     }
 }

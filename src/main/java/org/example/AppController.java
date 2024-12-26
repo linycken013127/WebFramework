@@ -13,4 +13,8 @@ public class AppController extends BaseController {
         System.out.println("test");
         return "Hello World";
     }
+
+    public Object create(Object o) {
+        return "create";
+    }
 }

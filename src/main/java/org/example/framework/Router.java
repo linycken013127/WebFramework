@@ -33,7 +33,7 @@ public class Router {
 
     public Route findRoute(HttpRequest request) {
         for (Route route : routers) {
-            if (route.getPath().equals(request.getPath())) {
+            if (route.getPath().equals(request.getPath()) && route.getMethod().equals(request.getMethod())) {
                 return route;
             }
         }
