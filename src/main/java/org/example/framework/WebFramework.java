@@ -6,8 +6,8 @@ import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Function;
 
 public class WebFramework {
@@ -15,15 +15,19 @@ public class WebFramework {
     private final int port;
     private Router router;
     private BaseController controller;
+    private RequestBodyHandler requestBodyHandler;
 
     public WebFramework(int port) {
+        this.port = port;
+
         BaseController handler = new BaseController();
         handler.setFramework(this);
-        this.port = port;
         router = new Router(handler);
+
+        requestBodyHandler = new BaseRequestBodyHandler(null);
     }
 
-    public void start() {
+    public void launch() {
         try {
             HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
 
@@ -79,12 +83,16 @@ public class WebFramework {
                 exchange.getRequestURI().getQuery()
         );
         RequestLine requestLine = new RequestLine(exchange.getRequestMethod(), url, httpVersion);
-        List<Header> headers = new ArrayList<>();
-        for (Map.Entry<String, List<String>> entry : exchange.getRequestHeaders().entrySet()) {
-            Header header = new Header(entry.getKey(), entry.getValue());
-            headers.add(header);
-        }
-        RequestBody requestBody = new RequestBody();
+        Headers headers = new Headers();
+        headers.setHeaders(exchange.getRequestHeaders().entrySet().stream()
+                .collect(
+                        HashMap::new,
+                        (m, e) -> m.put(e.getKey(), e.getValue().get(0)),
+                        HashMap::putAll
+                )
+        );
+
+        RequestBody requestBody = requestBodyHandler.handler(exchange, headers.getContentType());
         return new HttpRequest(requestLine, url, headers, requestBody);
     }
 

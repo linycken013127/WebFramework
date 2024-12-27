@@ -1,9 +1,6 @@
 package org.example;
 
-import org.example.framework.BaseController;
 import org.example.framework.WebFramework;
-
-import java.util.function.Function;
 
 public class Main {
     public static void main(String[] args) {
@@ -18,6 +15,6 @@ public class Main {
 
         web.get("/test", appController::test);
         web.post("/test", appController::create);
-        web.start();
+        web.launch();
     }
 }
