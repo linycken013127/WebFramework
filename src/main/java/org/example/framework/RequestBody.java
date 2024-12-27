@@ -2,10 +2,18 @@ package org.example.framework;
 
 import com.sun.net.httpserver.HttpExchange;
 
-public class RequestBody {
-    private final HttpExchange body;
+import java.util.Map;
 
-    public RequestBody(HttpExchange body) {
-        this.body = body;
+public class RequestBody {
+
+    private Map<String, Object> jsonMap;
+
+    public RequestBody() {
     }
+
+    public RequestBody(Map<String, Object> jsonMap) {
+        this.jsonMap = jsonMap;
+    }
+
+
 }

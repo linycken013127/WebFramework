@@ -4,7 +4,7 @@ import com.sun.net.httpserver.HttpExchange;
 
 public class BaseRequestBodyHandler extends RequestBodyHandler {
     public BaseRequestBodyHandler(RequestBodyHandler next) {
-        this.contextType = "application/json";
+        this.contextType = "";
         this.next = next;
     }
 
@@ -12,7 +12,7 @@ public class BaseRequestBodyHandler extends RequestBodyHandler {
     public RequestBody execute(HttpExchange exchange) {
 
         System.out.println("BaseRequestBodyHandler");
-        return new RequestBody(exchange);
+        return new RequestBody();
     }
 
     @Override

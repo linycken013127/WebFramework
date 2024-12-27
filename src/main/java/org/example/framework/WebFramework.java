@@ -24,7 +24,7 @@ public class WebFramework {
         handler.setFramework(this);
         router = new Router(handler);
 
-        requestBodyHandler = new BaseRequestBodyHandler(null);
+        requestBodyHandler = new JsonHandler(new BaseRequestBodyHandler(null));
     }
 
     public void launch() {

@@ -25,6 +25,6 @@ public class Headers {
     }
 
     public String getContentType() {
-        return (String) headers.get("Content-Type");
+        return (String) headers.get("Content-type");
     }
 }
