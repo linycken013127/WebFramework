@@ -53,24 +53,30 @@ public class WebFramework {
         // 將 exchange 轉 http Request object
         // content type
         // force ocp
-        HttpRequest request = exchangeToRequest(exchange);
+        try {
+            HttpRequest request = exchangeToRequest(exchange);
 
-        Route route = router.findRoute(request);
+            Route route = router.findRoute(request);
 
-        List<Header> headers = new ArrayList<>();
-        HttpResponse httpResponse = new HttpResponse(
-                new StatusLine(exchange.getProtocol(), 500),
-                headers
-        );
+            List<Header> headers = new ArrayList<>();
+            HttpResponse httpResponse = new HttpResponse(
+                    new StatusLine(exchange.getProtocol(), 500),
+                    headers
+            );
 
-        if (request.getMethod().equals(route.getMethod())) {
-            Object response = route.getHandler().apply(request);
+            if (request.getMethod().equals(route.getMethod())) {
+                Object response = route.getHandler().apply(request);
 
-            httpResponse.setCode(200);
-            httpResponse.setBody(response);
+                httpResponse.setCode(200);
+                httpResponse.setBody(response);
+            }
+
+            httpResponse.send(exchange);
+        } catch (Exception e) {
+            e.printStackTrace();
+            exchange.sendResponseHeaders(500, 0);
+            exchange.getResponseBody().close();
         }
-
-        httpResponse.send(exchange);
     }
 
     private HttpRequest exchangeToRequest(HttpExchange exchange) {
