@@ -15,6 +15,7 @@ public class Main {
 
         web.get("/test", appController::test);
         web.post("/test", appController::create);
+        web.addPlugin(new JsonHandler());
         web.launch();
     }
 }

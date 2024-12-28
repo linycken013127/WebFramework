@@ -9,6 +9,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 public class JsonHandler extends RequestBodyHandler {
+    public JsonHandler() {
+        this.contextType = "application/json";
+        this.next = null;
+    }
     public JsonHandler(BaseRequestBodyHandler baseRequestBodyHandler) {
         this.contextType = "application/json";
         this.next = baseRequestBodyHandler;

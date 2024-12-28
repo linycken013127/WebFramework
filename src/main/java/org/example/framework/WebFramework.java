@@ -24,7 +24,7 @@ public class WebFramework {
         handler.setFramework(this);
         router = new Router(handler);
 
-        requestBodyHandler = new JsonHandler(new BaseRequestBodyHandler(null));
+        requestBodyHandler = new BaseRequestBodyHandler(null);
     }
 
     public void launch() {
@@ -128,5 +128,10 @@ public class WebFramework {
 
     public void delete(String path, Function<Object, Object> controller) {
         addRoute(path, "DELETE", controller);
+    }
+
+    public void addPlugin(RequestBodyHandler handler) {
+        handler.setNext(requestBodyHandler);
+        requestBodyHandler = handler;
     }
 }

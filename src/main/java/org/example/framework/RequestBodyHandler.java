@@ -24,4 +24,8 @@ public abstract class RequestBodyHandler {
     public boolean match(String contextType) {
         return this.contextType.equals(contextType);
     }
+
+    public void setNext(RequestBodyHandler next) {
+        this.next = next;
+    }
 }
