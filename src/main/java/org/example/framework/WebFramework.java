@@ -50,9 +50,6 @@ public class WebFramework {
     }
 
     public void handle(HttpExchange exchange) throws IOException {
-        // 將 exchange 轉 http Request object
-        // content type
-        // force ocp
         try {
             HttpRequest request = exchangeToRequest(exchange);
 

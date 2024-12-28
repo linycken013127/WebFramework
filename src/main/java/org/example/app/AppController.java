@@ -1,4 +1,4 @@
-package org.example;
+package org.example.app;
 
 import org.example.framework.BaseController;
 
@@ -7,8 +7,6 @@ public class AppController extends BaseController {
     public AppController() {
     }
 
-    // return 可以由 Client 自行決定
-    // function parameter 可以由 Client 自行決定
     public Object test(Object o) {
         System.out.println("test");
         return "Hello World";
@@ -16,5 +14,9 @@ public class AppController extends BaseController {
 
     public Object create(Object o) {
         return "create";
+    }
+
+    public UserDto registration(Object o) {
+        return new UserDto("4", "email", "NewUser");
     }
 }
