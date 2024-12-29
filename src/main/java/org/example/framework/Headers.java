@@ -25,6 +25,7 @@ public class Headers {
     }
 
     public String getContentType() {
+        // 大小寫問題，再一次就全部轉小寫
         return (String) headers.get("Content-type");
     }
 }

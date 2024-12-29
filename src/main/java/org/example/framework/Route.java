@@ -1,8 +1,5 @@
 package org.example.framework;
 
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
-
 import java.util.function.Function;
 
 public class Route {
@@ -14,6 +11,10 @@ public class Route {
         this.path = path;
         this.method = method;
         this.handler = handler;
+    }
+
+    public Object handle(HttpRequest request) {
+        return handler.apply(request);
     }
 
     public String getPath() {

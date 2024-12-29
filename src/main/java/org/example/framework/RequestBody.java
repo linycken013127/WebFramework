@@ -4,16 +4,8 @@ import com.sun.net.httpserver.HttpExchange;
 
 import java.util.Map;
 
-public class RequestBody {
+public class RequestBody<T> {
+    public void readBodyAsObject(Class<T> type) {
 
-    private Map<String, Object> jsonMap;
-
-    public RequestBody() {
     }
-
-    public RequestBody(Map<String, Object> jsonMap) {
-        this.jsonMap = jsonMap;
-    }
-
-
 }

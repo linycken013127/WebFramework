@@ -1,19 +1,17 @@
 package org.example.framework;
 
-import java.util.List;
+import org.example.app.RegistrationRequest;
 
-public class HttpRequest {
+public class HttpRequest<T> {
     private final RequestLine requestLine;
     private final HttpUrl url;
     private final Headers headers;
-    private final RequestBody requestBody;
+    private RequestBody requestBody;
 
-
-    public HttpRequest(RequestLine requestLine, HttpUrl url, Headers headers, RequestBody requestBody) {
+    public HttpRequest(RequestLine requestLine, HttpUrl url, Headers headers) {
         this.requestLine = requestLine;
         this.url = url;
         this.headers = headers;
-        this.requestBody = requestBody;
     }
 
     public String getPath() {
@@ -22,5 +20,9 @@ public class HttpRequest {
 
     public String getMethod() {
         return requestLine.getMethod();
+    }
+
+    public void readBodyAsObject(Class<T> type) {
+
     }
 }

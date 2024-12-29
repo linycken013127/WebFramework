@@ -1,6 +1,7 @@
 package org.example.app;
 
 import org.example.framework.BaseController;
+import org.example.framework.HttpRequest;
 
 public class AppController extends BaseController {
 
@@ -16,7 +17,8 @@ public class AppController extends BaseController {
         return "create";
     }
 
-    public UserDto registration(Object o) {
+    public UserDto registration(HttpRequest request) {
+        request.readBodyAsObject(RegistrationRequest.class);
         return new UserDto("4", "email", "NewUser");
     }
 }
